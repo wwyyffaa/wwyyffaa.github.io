@@ -19,6 +19,96 @@
 ]]></content>
   </entry>
   <entry>
+    <title>Hexo部署在GitHub并设置自己的域名</title>
+    <url>/2022/01/21/hexo/</url>
+    <content><![CDATA[<h2 id="1-新建仓库"><a href="#1-新建仓库" class="headerlink" title="1.新建仓库"></a>1.新建仓库</h2><p>   创建一个和你用户名相同的仓库，后面加.github.io，只有这样，将来要部署到GitHub page的时候，才会被识别</p>
+<p>   wwyyffaa:我的github用户名</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wwyyffaa.github.io</span><br></pre></td></tr></table></figure>
+<p><img src="/images/20220121153403.png" alt="创建新存储库"></p>
+<h2 id="2-配置-config-yml文件"><a href="#2-配置-config-yml文件" class="headerlink" title="2.配置_config.yml文件"></a>2.配置_config.yml文件</h2><p>   在配置的博客跟目录中找到_config.yml</p>
+<pre><code class="bash">   deploy:
+    type: git
+    repo: git@github.com:wwyyffaa/wwyyffaa.github.io.git # 存放博客的仓库地址
+    branch: master
+</code></pre>
+<pre><code>wwyyffaa就是你的GitHub账户
+
+这个时候需要先安装deploy-git ，也就是部署（hexo deploy）的命令,这样你才能用命令将静态文件部署到GitHub。
+</code></pre>
+<pre><code class="bash">  npm install hexo-deployer-git --save
+</code></pre>
+<h2 id="2-1在-Hexo-中添加豆瓣个人主页"><a href="#2-1在-Hexo-中添加豆瓣个人主页" class="headerlink" title="2.1在 Hexo 中添加豆瓣个人主页"></a>2.1在 Hexo 中添加豆瓣个人主页</h2><p>   <strong>安装</strong></p>
+<pre><code class="bash">  npm install hexo-deployer-git --save
+</code></pre>
+<p>   <strong>配置</strong></p>
+<p>   在博客站点的配置文件 _config.yml 中添加以下内容（注意：不是主题的配置文件）</p>
+<pre><code class="bash">  douban:
+    user: xxxxz # 你的豆瓣ID
+    builtin: false
+    book:
+        title: &#39;那些年,我看過的书籍&#39;
+        quote: &#39;过去、现在、未来&#39;
+        meta: &lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
+        comments: true
+        top_img: https://z3.ax1x.com/2021/07/12/WitKOg.jpg
+        aside: true
+        path: books
+        limit:
+    movie:
+        title: &#39;那些年,我看過的電影&#39;
+        quote: &#39;过去、现在、未来&#39;
+        meta: &lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
+        comments: true
+        top_img: https://z3.ax1x.com/2021/07/12/Wi3LCT.jpg
+        aside: true
+        path: movies
+        limit:
+    game:
+        title: &#39;那些年,我玩過的游戏&#39;
+        quote: &#39;过去、现在、未来&#39;
+        meta: &lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
+        comments: true
+        top_img: https://z3.ax1x.com/2021/06/25/R1mrJf.png
+        aside: true
+        path: games
+        limit:
+    timeout: 10000 
+</code></pre>
+<pre><code>注意：此时books、movies、games不需要使用hexo new page xxx来创建，只需要配置hexo-douban后会自动创建。
+
+Butterfly 主题中使用 hexo-douban 插件
+
+如果上面的页面显示都无问题的话，就可以在主题的配置文件 _config.butterfly.yml 中为这些页面添加菜单链接了
+</code></pre>
+<pre><code class="bash">  menu:
+    娱乐||fas fa-list:
+        书籍: /books/ || fas fa-book
+        电影: /movies/ || fas fa-film
+        游戏: /games/ || fas fa-gamepad
+</code></pre>
+<h2 id="3-开始部署"><a href="#3-开始部署" class="headerlink" title="3.开始部署"></a>3.开始部署</h2><pre><code class="bash">  hexo clean  // :清理缓存
+  hexo generate 也可以 hexo g //生成静态资源
+  hexo douban
+  hexo sever 也可以 hexo s //本地运行
+  hexo deploy      也可以hexo d //部署
+</code></pre>
+<p>  执行hexo server前，先下载server模块，npm install hexo-server</p>
+<h2 id="4-配置域名"><a href="#4-配置域名" class="headerlink" title="4.配置域名"></a>4.配置域名</h2><pre><code>把你购买的域名做好域名解析;
+在github仓库设置，找到pages 输入自己的域名; 如图：
+</code></pre>
+<p><img src="/images/20220121160948.png" alt="github仓库设置"></p>
+<p><img src="/images/20220121161000.png" alt="页面配置域名"></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>github</tag>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Vue根据开票数量动态生成多个表单</title>
     <url>/2021/06/23/skb/</url>
     <content><![CDATA[<h2 id="页面样式图片"><a href="#页面样式图片" class="headerlink" title="页面样式图片"></a>页面样式图片</h2><p><strong>页面样式图片</strong></p>
