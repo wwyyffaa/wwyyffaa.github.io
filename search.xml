@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hello World</title>
-    <url>/2021/06/18/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>Hexo部署在GitHub并设置自己的域名</title>
     <url>/2022/01/21/hexo/</url>
     <content><![CDATA[<h2 id="1-新建仓库"><a href="#1-新建仓库" class="headerlink" title="1.新建仓库"></a>1.新建仓库</h2><p>   创建一个和你用户名相同的仓库，后面加.github.io，只有这样，将来要部署到GitHub page的时候，才会被识别</p>
@@ -109,6 +91,25 @@ Butterfly 主题中使用 hexo-douban 插件
       </tags>
   </entry>
   <entry>
+    <title>vue elementui 实现异步搜索功能</title>
+    <url>/2022/01/25/input/</url>
+    <content><![CDATA[<h2 id="1-在-Vue-的-View-视图-中"><a href="#1-在-Vue-的-View-视图-中" class="headerlink" title="1.在 Vue 的 View(视图)中"></a>1.在 Vue 的 View(视图)中</h2><p>使用 element-ui 的组件 el-autocomplete</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;el-form-item label=<span class="string">&quot;新委派单&quot;</span> prop=<span class="string">&quot;newAppointedOrderId&quot;</span>&gt;</span><br><span class="line">    &lt;el-autocomplete</span><br><span class="line">        v-model=<span class="string">&quot;form.appointedOrderName&quot;</span></span><br><span class="line">        :fetch-suggestions=<span class="string">&quot;querySearch&quot;</span></span><br><span class="line">        placeholder=<span class="string">&quot;搜索新委派单&quot;</span></span><br><span class="line">        :trigger-on-focus=<span class="string">&quot;false&quot;</span></span><br><span class="line">        @select=<span class="string">&quot;handleSelect&quot;</span></span><br><span class="line">        style=<span class="string">&quot;width:100%&quot;</span></span><br><span class="line">        &gt;</span><br><span class="line">    &lt;/el-autocomplete&gt;</span><br><span class="line">&lt;/el-form-item&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="2-在-Vue-的-Model-数据-中"><a href="#2-在-Vue-的-Model-数据-中" class="headerlink" title="2.在 Vue 的 Model(数据)中"></a>2.在 Vue 的 Model(数据)中</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="title">data</span></span>()&#123;</span><br><span class="line">	<span class="built_in">return</span>&#123;</span><br><span class="line">	   form:&#123;</span><br><span class="line">           newAppointedOrderId:undefined,</span><br><span class="line">           appointedOrderName: undefined,</span><br><span class="line">       &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-在-Vue-的-ViewModel-逻辑-中"><a href="#3-在-Vue-的-ViewModel-逻辑-中" class="headerlink" title="3.在 Vue 的 ViewModel(逻辑)中"></a>3.在 Vue 的 ViewModel(逻辑)中</h2><p>   queryString是输入的内容(即用户搜索的内容)<br>   handleSelect是点击数据之后的操作</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">    querySearch(queryString, cb) &#123;</span><br><span class="line">        var array = [];</span><br><span class="line">        listSiAppointedOrder(queryString).<span class="keyword">then</span>(res =&gt; &#123;</span><br><span class="line">            <span class="keyword">if</span> (res.data.length == 0) &#123;</span><br><span class="line">            //没有找到</span><br><span class="line">            array.push(&#123; id: 0, value: <span class="string">&quot;没有找到该条数据&quot;</span> &#125;);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">let</span> i = 0; i &lt; res.data.length; i++) &#123;</span><br><span class="line">                //转换成id和value属性的对象数组</span><br><span class="line">                array.push(&#123;</span><br><span class="line">                id: res.data[i].appointedOrderId,</span><br><span class="line">                value: res.data[i].appointedOrderName</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        //返回数据</span><br><span class="line">        cb(array);</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    handleSelect(item) &#123;</span><br><span class="line">        <span class="keyword">if</span> (item.id != 0) &#123;</span><br><span class="line">        this.form.newAppointedOrderId = item.id;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Vue</category>
+      </categories>
+      <tags>
+        <tag>Vue</tag>
+        <tag>element-ui</tag>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Vue根据开票数量动态生成多个表单</title>
     <url>/2021/06/23/skb/</url>
     <content><![CDATA[<h2 id="页面样式图片"><a href="#页面样式图片" class="headerlink" title="页面样式图片"></a>页面样式图片</h2><p><strong>页面样式图片</strong></p>
@@ -121,12 +122,30 @@ Butterfly 主题中使用 hexo-douban 插件
 
 <h2 id="2-2定义变量"><a href="#2-2定义变量" class="headerlink" title="2.2定义变量"></a>2.2定义变量</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">addTzArr: [],</span><br><span class="line">addform: &#123;&#125;,</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>web前端</category>
+        <category>Vue</category>
       </categories>
       <tags>
-        <tag>深拷贝</tag>
         <tag>Vue</tag>
         <tag>element-ui</tag>
+        <tag>深拷贝</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2021/06/18/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
   </entry>
 </search>
